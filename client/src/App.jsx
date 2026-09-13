@@ -65,8 +65,9 @@ export default function App() {
             onClick={handleReset}
             className="flex items-center gap-2 font-black text-2xl sm:text-4xl tracking-tighter uppercase group cursor-pointer"
           >
-            <span className="bg-black text-white px-2 py-0.5 group-hover:bg-[#ff2d2d] transition-colors">
-              DEFLAMES
+            <span className="bg-black text-white px-2 py-0.5 group-hover:bg-[#ff2d2d] transition-colors flex items-center gap-1.5">
+              <Flame className="w-5 h-5 sm:w-7 sm:h-7 text-[#ff3434] group-hover:text-[#fff500] transition-colors fill-current" aria-hidden="true" />
+              <span>DEFLAMES</span>
             </span>
           </button>
 
