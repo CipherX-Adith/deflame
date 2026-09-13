@@ -68,9 +68,6 @@ export default function App() {
             <span className="bg-black text-white px-2 py-0.5 group-hover:bg-[#ff2d2d] transition-colors">
               DEFLAMES
             </span>
-            <span className="text-xs font-mono font-bold text-black hidden sm:inline-block border-l-2 border-black pl-2">
-              EXPIRY ENGINE
-            </span>
           </button>
 
           <div className="flex items-center gap-3 sm:gap-4 font-mono text-xs sm:text-sm font-bold">

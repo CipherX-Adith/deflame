@@ -7,8 +7,8 @@
  */
 
 const VERDICT_AUDIO = {
-  negative: '/audio/breakup-50-and-above.ogg',
-  positive: '/audio/breakup-below-50.ogg'
+  negative: '/audio/breakup-50-and-above.mpeg',
+  positive: '/audio/breakup-below-50-loop.mpeg'
 };
 
 let activeAudio = null;
@@ -37,6 +37,7 @@ export function getMalayalamVerdict(result) {
       type: 'positive',
       probability: p,
       audioSrc: VERDICT_AUDIO.positive,
+      loop: true,
       // Funny Malayalam / Manglish Congratulatory Heaven message with laughing
       text: 'Congratulations aliya! Ningal randu perum DEFLAMES scan-il rekshapettu. Enjoy your heaven! Ha ha ha ha ha!',
       displayMalayalam: 'കൺഗ്രാജുലേഷൻസ് അളിയാ! നിങ്ങൾ രണ്ടുപേരും രക്ഷപ്പെട്ടു. എൻജോയ് യുവർ ഹെവൻ! ഹാ ഹാ ഹാ!',
@@ -48,6 +49,7 @@ export function getMalayalamVerdict(result) {
       type: 'negative',
       probability: p,
       audioSrc: VERDICT_AUDIO.negative,
+      loop: false,
       // Funny Malayalam / Manglish Trapped to Hell message with laughing
       text: 'Sorry bro, nee trapped aayi! Oru rakshayum illa, bye, go to hell! Ha ha ha ha ha!',
       displayMalayalam: 'സോറി ബ്രോ, നീ ട്രാപ്പിലായി! ഒരു രക്ഷയുമില്ല, ബൈ, ഗോ ടു ഹെൽ! ഹാ ഹാ ഹാ!',
@@ -72,6 +74,7 @@ export function speakVerdict(result, onStart, onEnd, onError) {
     const audio = new Audio(verdict.audioSrc);
     activeAudio = audio;
     audio.preload = 'auto';
+    audio.loop = verdict.loop === true;
 
     audio.onplay = () => {
       if (onStart) onStart();

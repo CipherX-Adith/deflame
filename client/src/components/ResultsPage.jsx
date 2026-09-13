@@ -379,44 +379,6 @@ export default function ResultsPage({ data, onReset }) {
         </button>
       </div>
 
-      {/* Collapsible Debug Block */}
-      <div className="border-2 border-black bg-white">
-        <button
-          type="button"
-          onClick={() => {
-            playSound('click');
-            setShowDebug(!showDebug);
-          }}
-          className="w-full p-3 font-mono text-xs font-bold text-black flex items-center justify-between hover:bg-black hover:text-white transition-colors cursor-pointer"
-        >
-          <span>[+] ALGORITHM DEBUG PARAMETERS</span>
-          {showDebug ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-        </button>
-
-        {showDebug && (
-          <div className="p-4 border-t-2 border-black font-mono text-xs text-black space-y-2 bg-[#f9f9f9]">
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-              <div className="p-2 border border-black bg-white">
-                <div className="text-[10px] font-bold text-neutral-500">FLAMES REMAINDER (n)</div>
-                <div className="font-black text-sm">{debug.n_remaining_letters} letters</div>
-              </div>
-              <div className="p-2 border border-black bg-white">
-                <div className="text-[10px] font-bold text-neutral-500">BASE DURATION</div>
-                <div className="font-black text-sm">{debug.base_duration_months} mos</div>
-              </div>
-              <div className="p-2 border border-black bg-white">
-                <div className="text-[10px] font-bold text-neutral-500">STABILITY (S)</div>
-                <div className="font-black text-sm">{debug.stability_index}</div>
-              </div>
-              <div className="p-2 border border-black bg-white">
-                <div className="text-[10px] font-bold text-neutral-500">DECAY RATE (d)</div>
-                <div className="font-black text-sm">{debug.decay_rate}</div>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-
       {/* Final Disclaimer */}
       <footer className="border-t-3 border-black pt-6 pb-8 text-center">
         <p className="font-mono text-xs font-bold text-black max-w-xl mx-auto leading-relaxed">
