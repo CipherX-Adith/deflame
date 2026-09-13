@@ -11,6 +11,9 @@
     "build": "cd client && npm run build",
     "test": "cd server && npm test"
   },
-  "dependencies": {},
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  },
   "devDependencies": {}
 }
