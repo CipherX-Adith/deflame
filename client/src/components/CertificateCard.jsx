@@ -1,14 +1,15 @@
 import React, { useRef, useState } from 'react';
-import { Copy, Check, Download, ShieldCheck, Award } from 'lucide-react';
+import { Copy, Check, Download, ShieldCheck, Volume2, VolumeX } from 'lucide-react';
 import { toPng } from 'html-to-image';
 import confetti from 'canvas-confetti';
 import { playSound } from '../utils/audio';
-import VoiceVerdict from './VoiceVerdict';
+import { speakVerdict, stopSpeaking, getMalayalamVerdict } from '../utils/voice';
 
 export default function CertificateCard({ data }) {
   const certRef = useRef(null);
   const [copied, setCopied] = useState(false);
   const [downloading, setDownloading] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
 
   if (!data) return null;
 
@@ -18,8 +19,7 @@ export default function CertificateCard({ data }) {
     expiry_formatted,
     expiryDate = data.expiry_formatted || data.expiry_date || '18 JANUARY 2028',
     breakup_percentage,
-    breakupProbability = data.breakup_percentage || '50%',
-    primary_reason
+    breakupProbability = data.breakup_percentage || '50%'
   } = data;
 
   const displayExpiry = (expiry_formatted || expiryDate || '18 JANUARY 2028').toUpperCase();
@@ -27,9 +27,7 @@ export default function CertificateCard({ data }) {
     ? `${Math.round(breakupProbability)}%`
     : String(breakup_percentage || breakupProbability || '50%').toUpperCase();
 
-  // Registry Serial
   const certId = data.registryNo || `DFL-${Math.abs((name1 + name2).split('').reduce((a, b) => ((a << 5) - a) + b.charCodeAt(0), 0) % 900000 + 100000)}`;
-
   const statementText = data.statement || `This relationship is certified to expire on ${displayExpiry}, unless patched with weekly date nights, radical honesty, and non-defensive communication.`;
 
   const handleCopyText = () => {
@@ -70,8 +68,25 @@ export default function CertificateCard({ data }) {
     }
   };
 
+  const handleReplayVoice = () => {
+    playSound('click');
+    if (isSpeaking) {
+      stopSpeaking();
+      setIsSpeaking(false);
+    } else {
+      speakVerdict(
+        data,
+        () => setIsSpeaking(true),
+        () => setIsSpeaking(false),
+        () => setIsSpeaking(false)
+      );
+    }
+  };
+
+  const malayalamVerdict = getMalayalamVerdict(data);
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Neo-Brutalist Certificate Container */}
       <div
         ref={certRef}
@@ -164,11 +179,19 @@ export default function CertificateCard({ data }) {
         </footer>
       </div>
 
-      {/* Voice Verdict Audio Controller (Calculates Voice Decision Dynamically) */}
-      <VoiceVerdict result={data} />
-
       {/* Certificate Action Buttons */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono">
+        <button
+          type="button"
+          onClick={handleReplayVoice}
+          className={`py-3.5 px-4 text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer border-3 border-black shadow-[4px_4px_0px_#000] ${
+            isSpeaking ? 'bg-[#ff3434] text-white animate-pulse' : 'bg-[#fff500] text-black hover:bg-black hover:text-white transition-colors'
+          }`}
+        >
+          {isSpeaking ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+          <span>{isSpeaking ? 'STOP MALAYALAM VOICE' : '🔊 REPLAY MALAYALAM VOICE'}</span>
+        </button>
+
         <button
           type="button"
           onClick={handleCopyText}

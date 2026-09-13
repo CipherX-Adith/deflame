@@ -1,16 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { RotateCcw, Share2, Check, Printer, AlertTriangle, Info, ChevronDown, ChevronUp, Clock, ExternalLink } from 'lucide-react';
+import { RotateCcw, Share2, Check, Printer, AlertTriangle, Info, ChevronDown, ChevronUp, Clock, ExternalLink, Volume2 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import DecayChart from './DecayChart';
 import WhatIfSimulator from './WhatIfSimulator';
 import CertificateCard from './CertificateCard';
 import { playSound } from '../utils/audio';
+import { speakVerdict, stopSpeaking } from '../utils/voice';
 
 export default function ResultsPage({ data, onReset }) {
   const [currentData, setCurrentData] = useState(data);
   const [showDebug, setShowDebug] = useState(false);
   const [shareCopied, setShareCopied] = useState(false);
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+  // Auto-play funny Malayalam speech verdict on mount
+  useEffect(() => {
+    // Auto-speak funny verdict with laughing voice
+    speakVerdict(data);
+
+    return () => {
+      stopSpeaking();
+    };
+  }, [data]);
 
   const {
     name1 = 'PERSON 1',
