@@ -106,8 +106,11 @@ export default function LandingPage({ onStart, initialData, onOpenInfo }) {
               WASTE A LITTLE<br />
               <span className="bg-[#ff2d2d] text-white px-2 py-1 inline-block -rotate-1">TIME ON LOVE.</span>
             </h1>
+            <p className="font-black text-lg sm:text-2xl uppercase tracking-tight border-l-4 border-[#ff2d2d] pl-3 mb-3">
+              Your relationship was fine. Then you opened this.
+            </p>
             <p className="font-mono text-xs sm:text-base font-bold text-black uppercase max-w-2xl leading-relaxed">
-              A wildly unnecessary relationship expiry predictor, powered by cancelled letters, questionable maths and absolutely no credentials.
+              From “we’re good” to “we should talk.” Powered by cancelled letters, questionable maths and absolutely no credentials.
             </p>
           </div>
           <div className="lg:col-span-3 border-3 border-black bg-black text-white p-4 shadow-[6px_6px_0_#ff3434] rotate-1">
