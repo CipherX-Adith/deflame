@@ -80,15 +80,6 @@ export default function LandingPage({ onStart, initialData, onOpenInfo }) {
 
   return (
     <div className="w-full max-w-4xl mx-auto px-4 py-6 sm:py-10">
-      {/* Ticker Banner */}
-      <div className="mb-6 p-2 bg-black text-white font-mono text-xs font-bold overflow-hidden border-2 border-black flex items-center justify-between shadow-[3px_3px_0px_#000]">
-        <div className="flex items-center gap-2">
-          <span className="bg-[#ff2d2d] px-1.5 py-0.5 text-[10px] uppercase">LIVE</span>
-          <span className="truncate">PREDICTING EXPIRATION DATES WITH MATHEMATICAL PRECISION</span>
-        </div>
-        <span className="hidden sm:inline text-neutral-400">DEFLAMES v2.5</span>
-      </div>
-
       {/* Hero Section */}
       <div className="mb-8 sm:mb-12 text-left">
         <div className="inline-block brutal-badge px-3 py-1 text-xs sm:text-sm mb-3">
