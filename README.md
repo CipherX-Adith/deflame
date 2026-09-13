@@ -1,161 +1,150 @@
-# 🔥 DEFLAMES — Relationship Decay & Expiry Simulator
+<img width="1280" height="640" alt="DEFLAMES Banner" src="https://github.com/user-attachments/assets/8920b256-2ba8-4988-b824-5351134eb4bd" />
 
-> **A playful, satirical relationship half-life predictor that computes relationship duration, expiry dates, breakup probabilities, and grounds for inevitable separation.**
+# DEFLAMES 🔥🎯
 
----
-
-## ⚡ Features
-
-- **FLAMES Easter Egg Cancellation Matrix**: Counts and cancels common letters between names to determine the baseline duration floor.
-- **Multidimensional Compatibility Assessment**: Evaluates 6 key relationship dimensions ($C, T, I, F, G, K$) across 7 concise questions.
-- **Fictional Decay Engine**: Deterministic non-linear decay curve computation:
-  $$S = w_C C + w_T T + w_I I + w_F F + w_G G + w_K K$$
-  $$d = d_{\text{base}} \cdot (1 - S)^\alpha + 0.02$$
-  $$t_{\text{expiry}} = \frac{K_{\text{life}}}{d}, \quad t_{\text{final}} = 0.7 \cdot t_{\text{expiry}} + 0.3 \cdot \text{base\_duration}$$
-- **Dynamic What-If Habit Patcher**: Real-time sliders allowing couples to simulate how improving communication, quality time, or finances extends their expiry date.
-- **Interactive Decay Curve Chart**: Responsive SVG visualization plotting relationship health over a 48-month horizon.
-- **Official Expiry Certificate**: Satirical certificate card with registry serial, official seal, and 1-click text copy or PNG image download.
-- **Multi-Vector Modes**: Support for Romantic Couples, Best Friends, and Startup Co-Founders.
-- **100% Responsive & Dark Mode**: Mobile, tablet, and desktop optimized.
+> **The Automated Quantum Relationship Autopsy Engine & Expiry Predictor.**
 
 ---
 
-## 🛠️ Tech Stack
+## Basic Details
 
-- **Frontend**: React 18, Vite, Tailwind CSS (v4), Lucide React, Canvas Confetti, HTML-to-Image.
-- **Backend**: Node.js, Express, CORS.
-- **Testing**: Built-in Node Test Runner (`node --test`).
+### Team Name: astra
+
+### Team Members
+- **Team Lead:** ADITH S KUMAR
+- **Member 2:** SOORAJ
+
+### Project Description
+DEFLAMES is a satirical, mathematical relationship half-life simulator and autopsy engine. By combining the nostalgic childhood FLAMES letter-canceling matrix with 6-dimensional relationship decay physics, it calculates the exact expiration date, remaining lifespan countdown, breakup probability, and forensic grounds for inevitable romantic separation.
+
+### The Problem (that doesn't exist)
+Couples spend years dating under the blissfully ignorant illusion of eternity, completely unaware of their relationship's thermodynamic expiration timestamp. Traditional childhood FLAMES only gave you a single letter (`L`, `M`, `E`...) without providing an exact calendar deadline, a scientific decay curve, or an actionable habit patch.
+
+### The Solution (that nobody asked for)
+DEFLAMES mathematically dissects relationships using non-linear differential decay calculations. It diagnoses 6 key vulnerability dimensions ($C$ommunication, $T$ime, $I$ntimacy, $F$inances, $G$oals, and $K$onflict resolution), generates a responsive 48-month decay trajectory curve, exposes the primary reasons you will break up over unwashed spoons and Netflix passwords, and issues an officially signed, downloadable **Certificate of Relationship Expiry**.
 
 ---
 
-## 🚀 Quick Start (Local Run)
+## Technical Details
 
-### 1. Clone & Install Dependencies
+### Technologies/Components Used
+
+#### For Software:
+- **Languages:** JavaScript (ES6+ / Node.js runtime)
+- **Frontend Frameworks:** React 19, Vite 8, Tailwind CSS v4
+- **Backend Framework:** Express.js, Node.js HTTP & Test Runner
+- **Libraries:**
+  - `lucide-react` (Neo-brutalist icons & UI badges)
+  - `canvas-confetti` (Celebratory breakup confetti cannon)
+  - `html-to-image` (High-res PNG certificate generation & export)
+  - `cors` (Cross-origin API orchestration)
+- **Tools & Platforms:** VS Code, Antigravity IDE, Headless Chromium, Vercel Serverless
+
+#### For Hardware:
+- *Not Applicable (100% Software & Heartbreak Engineering)*
+
+---
+
+### Implementation
+
+#### For Software:
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/deflames.git
-cd deflames
+git clone https://github.com/CipherX-Adith/deflame2.0.git
+cd deflame2.0
 
-# Install dependencies for both server & client
+# Install all root, server, and client dependencies
 npm run install:all
 ```
 
-### 2. Run Development Mode (Frontend + Backend)
+#### Run:
 
 ```bash
+# Run both Frontend (Vite) and Backend (Express) concurrently in Development Mode
 npm run dev
-```
-- **Backend API**: `http://localhost:5000`
-- **Frontend App**: `http://localhost:5173`
 
-### 3. Run Production Build
-
-```bash
-# Build React client into dist/
-npm run build
-
-# Start Express server (serves API & static frontend on port 5000)
-npm start
-```
-Open `http://localhost:5000` in your browser.
-
-### 4. Run Automated Unit Tests
-
-```bash
-npm test
-```
-
----
-
-## 📱 Running on Termux (Android)
-
-DEFLAMES runs out-of-the-box in Termux on Android devices:
-
-```bash
-# 1. Update packages and install Node.js + Git
-pkg update -y
-pkg install -y nodejs git
-
-# 2. Clone and enter repo
-git clone https://github.com/your-username/deflames.git
-cd deflames
-
-# 3. Install packages
-npm run install:all
-
-# 4. Build and run production server
+# Or run Production Build & Server
 npm run build
 npm start
 ```
-Open `http://localhost:5000` in Chrome/Firefox on your phone!
+- **Web UI:** `http://localhost:5173` (or `http://localhost:5000` in production)
+- **API Endpoint:** `http://localhost:5000/api/deflames`
 
 ---
 
-## 🌐 API Specification
+## Project Documentation
 
-### `POST /api/deflames`
+### For Software:
 
-#### Request Body
-```json
-{
-  "name1": "Alice",
-  "name2": "Bob",
-  "mode": "relationship",
-  "answers": {
-    "argue_frequency": "Sometimes",
-    "communication_style": "Mostly open",
-    "time_together": "5–10 hours",
-    "goals_similarity": "Mostly similar",
-    "financial_compatibility": "Somewhat different",
-    "interests_overlap": "Medium",
-    "conflict_handling": "We argue but reconcile"
-  }
-}
-```
+#### Screenshots
 
-#### Response Body
-```json
-{
-  "name1": "Alice",
-  "name2": "Bob",
-  "mode": "relationship",
-  "duration_months": 24,
-  "duration_days": 11,
-  "lifespan_text": "24 months 11 days",
-  "expiry_date": "2028-09-24",
-  "expiry_formatted": "24 September 2028",
-  "breakup_probability": 0.27,
-  "breakup_percentage": "27%",
-  "primary_reason": "Financial stress and incompatible spending habits compounded by emotional distance from limited quality time.",
-  "secondary_factors": [
-    "Unsynchronized grocery budgets and impulsive Amazon orders",
-    "Parallel scrolling on TikTok instead of connecting"
-  ],
-  "dimensions": {
-    "C": 0.75,
-    "T": 0.6,
-    "I": 0.65,
-    "F": 0.5,
-    "G": 0.8,
-    "K": 0.7
-  },
-  "decay_curve": [
-    { "month": 0, "health": 78 },
-    { "month": 2, "health": 72 },
-    { "month": 4, "health": 66 }
-  ],
-  "debug": {
-    "n_remaining_letters": 8,
-    "base_duration_months": 9,
-    "stability_index": 0.685,
-    "decay_rate": 0.03875
-  }
-}
+##### 1. Subject Ingestion & Calibration Protocol
+![01_landing_setup](./screenshots/01_landing_setup.png)
+*The neo-brutalist subject selection interface where Subject A and Subject B enter their names, configure audio SFX, and initiate the diagnostic autopsy protocol.*
+
+---
+
+##### 2. 8-Question Forensic Examination
+![01_questionnaire_protocol](./screenshots/01_questionnaire_protocol.png)
+*Interactive diagnostic exam assessing 6 core dimensions ($C, T, I, F, G, K$) with real-time calibration progress.*
+
+---
+
+##### 3. Relationship Autopsy Report & Live Expiration Clock
+![02_autopsy_results](./screenshots/02_autopsy_results.png)
+*The core autopsy verdict displaying remaining lifespan (e.g. 12 months 11 days), real-time ticking expiration countdown, breakup probability gauge, and primary grounds of separation.*
+
+---
+
+##### 4. 6-Dimension Stability Rankings & Vulnerability Breakdown
+![05_dimensions_breakdown](./screenshots/05_dimensions_breakdown.png)
+*Detailed percentage health indicators across Communication, Time, Intimacy, Finances, Goals, and Conflict Resolution.*
+
+---
+
+##### 5. Non-Linear Relationship Decay Trajectory Graph
+![03_decay_trajectory_graph](./screenshots/03_decay_trajectory_graph.png)
+*Mathematical decay curve modeling relationship health residual $H(t) = H_0 \cdot e^{-d \cdot t}$ over a 48-month horizon with a critical expiry threshold marker.*
+
+---
+
+##### 6. Official Certificate of Expiry (Downloadable PNG & Sharable)
+![04_expiry_certificate](./screenshots/04_expiry_certificate.png)
+*Official stamped Certificate of Expiry with unique Registry ID, certified verdict, algorithmic seal, and 1-click PNG image exporter.*
+
+---
+
+### Diagrams & Architecture
+
+```mermaid
+flowchart TD
+    A[Subject Names: Romeo & Juliet] --> B[FLAMES Cancellation Matrix]
+    B -->|Remaining Letters Floor| C[Baseline Duration Floor]
+    
+    D[8-Question Dimension Calibration] --> E[Dimension Scores C, T, I, F, G, K]
+    
+    C & E --> F[Non-Linear Decay Engine]
+    F -->|S = Σ w_i · D_i| G[Stability Index S]
+    G -->|d = d_base · 1-S^α + 0.02| H[Decay Rate d]
+    H --> I[Expiry Date & Lifespan Calculation]
+    
+    I --> J[Autopsy Results Dashboard]
+    J --> K[Real-time Expiry Countdown Clock]
+    J --> L[Interactive 48-Month Decay Graph]
+    J --> M[Official Certificate Exporter]
+    J --> N[Audio Narration & Social Share]
 ```
 
 ---
 
-## ⚠️ Disclaimer
+## Team Innovations & Fun Features
+- **FLAMES Easter Egg Foundation:** Analyzes letter cancellations between names to calculate the irreducible baseline longevity floor.
+- **Dynamic What-If Habit Patcher:** Live sliders allowing couples to see how many days/months they can salvage by improving communication or splitting Netflix bills.
+- **Audio Voice Synthesis:** Multi-lingual voice readout feature (including Malayalam voice synthesis easter egg).
+- **1-Click Official Certificate Generation:** Converts client-side DOM nodes directly into crisp, downloadable PNG certificates to frame on the wall.
+- **100% Responsive Dark/Brutalist UI:** High-contrast retro terminal aesthetic with smooth micro-animations.
 
-DEFLAMES is a satirical game created solely for humor and entertainment. All decay constants, breakup probabilities, and expiration dates are completely fictional and must not be used as genuine relationship or psychological counsel.
+---
+
+Made with ❤️ and mild toxicity at TinkerHub Useless Projects
