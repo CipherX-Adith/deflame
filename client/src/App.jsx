@@ -19,6 +19,19 @@ export default function App() {
     setSoundOn(isSoundEnabled());
   }, []);
 
+  // Each app screen is a new chapter; never carry a previous page's scroll position into it.
+  useEffect(() => {
+    const scrollToTop = () => {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    };
+
+    scrollToTop();
+    const frame = window.requestAnimationFrame(scrollToTop);
+    return () => window.cancelAnimationFrame(frame);
+  }, [step]);
+
   const handleToggleSound = () => {
     const newState = toggleSound();
     setSoundOn(newState);
