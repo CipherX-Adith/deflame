@@ -17,7 +17,7 @@
   }
 
   ::selection {
-    background-color: #ff2d2d;
+    background-color: #ff3434;
     color: #ffffff;
   }
 
@@ -30,22 +30,20 @@
 
 /* Neo-Brutalist Utilities */
 .brutal-card {
-  background-color: #ffffff;
   border: 3px solid #000000;
   box-shadow: 8px 8px 0px #000000;
   border-radius: 0px;
 }
 
 .brutal-card-sm {
-  background-color: #ffffff;
   border: 2px solid #000000;
   box-shadow: 4px 4px 0px #000000;
   border-radius: 0px;
 }
 
 .brutal-card-accent {
-  background-color: #ff2d2d;
-  color: #ffffff;
+  background-color: #ff3434 !important;
+  color: #ffffff !important;
   border: 3px solid #000000;
   box-shadow: 8px 8px 0px #000000;
 }
@@ -81,7 +79,7 @@
 }
 
 .brutal-btn-accent {
-  background-color: #ff2d2d;
+  background-color: #ff3434;
   color: #ffffff;
   border: 3px solid #000000;
   box-shadow: 5px 5px 0px #000000;
@@ -122,7 +120,7 @@
 
 .brutal-badge {
   display: inline-block;
-  background-color: #ff2d2d;
+  background-color: #ff3434;
   color: #ffffff;
   font-weight: 800;
   border: 2px solid #000000;
@@ -156,7 +154,7 @@ input[type=range]::-webkit-slider-thumb {
   appearance: none;
   width: 20px;
   height: 24px;
-  background: #ff2d2d;
+  background: #ff3434;
   border: 2px solid #000000;
   cursor: pointer;
   border-radius: 0px;
@@ -166,7 +164,7 @@ input[type=range]::-webkit-slider-thumb {
 input[type=range]::-moz-range-thumb {
   width: 20px;
   height: 24px;
-  background: #ff2d2d;
+  background: #ff3434;
   border: 2px solid #000000;
   cursor: pointer;
   border-radius: 0px;

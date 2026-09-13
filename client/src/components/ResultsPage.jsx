@@ -13,17 +13,17 @@ export default function ResultsPage({ data, onReset }) {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   const {
-    name1,
-    name2,
-    mode,
-    duration_months,
-    duration_days,
-    lifespan_text,
+    name1 = 'PERSON 1',
+    name2 = 'PERSON 2',
+    mode = 'relationship',
+    duration_months = 0,
+    duration_days = 0,
+    lifespan_text = `${duration_months} MONTHS ${duration_days} DAYS`,
     expiry_date,
     expiry_formatted,
-    breakup_probability,
-    breakup_percentage,
-    primary_reason,
+    breakup_probability = 0.5,
+    breakup_percentage = `${Math.round(breakup_probability * 100)}%`,
+    primary_reason = 'Communication breakdown',
     secondary_factors = [],
     dimensions = {},
     ranked_dimensions = [],
@@ -31,15 +31,42 @@ export default function ResultsPage({ data, onReset }) {
     debug = {}
   } = currentData;
 
+  // Safe Expiry Date Formatter with bulletproof fallbacks
+  const displayExpiry = (
+    expiry_formatted ||
+    currentData.expiryDate ||
+    (expiry_date ? (() => {
+      try {
+        const parts = String(expiry_date).split('-');
+        if (parts.length === 3) {
+          const monthsNames = [
+            "JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE",
+            "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"
+          ];
+          const monthIdx = parseInt(parts[1], 10) - 1;
+          const day = parseInt(parts[2], 10);
+          const year = parts[0];
+          if (!isNaN(monthIdx) && monthIdx >= 0 && monthIdx < 12) {
+            return `${day} ${monthsNames[monthIdx]} ${year}`;
+          }
+        }
+        return expiry_date;
+      } catch (e) {
+        return expiry_date;
+      }
+    })() : null) ||
+    '18 JANUARY 2028'
+  ).toUpperCase();
+
   // Live countdown timer to calculated expiry date
   useEffect(() => {
-    if (!expiry_date) return;
-    const target = new Date(`${expiry_date}T23:59:59`).getTime();
+    const targetDateStr = expiry_date || '2028-01-18';
+    const target = new Date(`${targetDateStr}T23:59:59`).getTime();
 
     const updateTimer = () => {
       const now = new Date().getTime();
       const diff = target - now;
-      if (diff <= 0) {
+      if (diff <= 0 || isNaN(diff)) {
         setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
         return;
       }
@@ -55,7 +82,7 @@ export default function ResultsPage({ data, onReset }) {
     return () => clearInterval(interval);
   }, [expiry_date]);
 
-  const shareText = `🔥 DEFLAMES AUTOPSY: ${name1} & ${name2}\n📅 Relationship expires on: ${expiry_formatted} (${lifespan_text})\n💔 Breakup Probability: ${breakup_percentage}\n💀 Primary Cause: ${primary_reason}\n\n(Playful entertainment via DEFLAMES)`;
+  const shareText = `🔥 DEFLAMES AUTOPSY: ${name1.toUpperCase()} & ${name2.toUpperCase()}\n📅 Relationship expires on: ${displayExpiry} (${lifespan_text})\n💔 Breakup Probability: ${breakup_percentage}\n💀 Primary Cause: ${primary_reason}\n\n(Playful entertainment via DEFLAMES)`;
 
   const handleShare = async () => {
     playSound('click');
@@ -101,7 +128,11 @@ export default function ResultsPage({ data, onReset }) {
     setCurrentData(updatedData);
   };
 
-  const probVal = Math.round(breakup_probability * 100);
+  const probVal = Math.round(
+    typeof breakup_probability === 'number'
+      ? (breakup_probability <= 1 ? breakup_probability * 100 : breakup_probability)
+      : Number(String(breakup_percentage || '50').replace('%', '')) || 50
+  );
 
   return (
     <div className="w-full max-w-4xl mx-auto px-4 py-6 sm:py-10 space-y-8 text-left">
@@ -113,7 +144,7 @@ export default function ResultsPage({ data, onReset }) {
               ★ OFFICIAL AUTOPSY REPORT ★
             </div>
             <h1 className="text-3xl sm:text-6xl font-black text-black leading-tight">
-              YOUR RELATIONSHIP <span className="bg-[#ff2d2d] text-white px-2 py-0.5 inline-block">AUTOPSY</span>
+              YOUR RELATIONSHIP <span className="bg-[#ff3434] text-white px-2 py-0.5 inline-block">AUTOPSY</span>
             </h1>
           </div>
 
@@ -121,7 +152,7 @@ export default function ResultsPage({ data, onReset }) {
             <button
               type="button"
               onClick={handlePrint}
-              className="brutal-btn px-3 py-1.5 text-xs font-mono flex items-center gap-1.5 cursor-pointer"
+              className="brutal-btn px-3 py-1.5 text-xs font-mono flex items-center gap-1.5 cursor-pointer shadow-[3px_3px_0px_#000]"
               title="Print official report"
             >
               <Printer className="w-3.5 h-3.5" />
@@ -135,8 +166,8 @@ export default function ResultsPage({ data, onReset }) {
         </p>
 
         {/* Subjects bar */}
-        <div className="mt-4 p-3 bg-black text-white font-mono text-xs sm:text-sm font-black uppercase flex justify-between items-center shadow-[3px_3px_0px_#ff2d2d]">
-          <span>SUBJECTS: {name1} & {name2}</span>
+        <div className="mt-4 p-3 bg-black text-white font-mono text-xs sm:text-sm font-black uppercase flex justify-between items-center shadow-[3px_3px_0px_#ff3434]">
+          <span>SUBJECTS: {name1.toUpperCase()} & {name2.toUpperCase()}</span>
           <span>STATUS: COMPLETE</span>
         </div>
       </div>
@@ -144,12 +175,12 @@ export default function ResultsPage({ data, onReset }) {
       {/* Live Countdown Clock Banner */}
       <div className="brutal-card p-4 sm:p-6 bg-[#fff500] border-3 border-black flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-2">
-          <Clock className="w-5 h-5 text-black animate-spin-slow shrink-0" />
+          <Clock className="w-5 h-5 text-black shrink-0" />
           <div>
             <span className="font-mono text-xs font-black uppercase block text-neutral-800">
               LIVE EXPIRATION COUNTDOWN
             </span>
-            <span className="font-mono text-xs text-black">Ticking down to {expiry_formatted}</span>
+            <span className="font-mono text-xs text-black font-bold">Ticking down to {displayExpiry}</span>
           </div>
         </div>
 
@@ -167,17 +198,17 @@ export default function ResultsPage({ data, onReset }) {
             <div className="text-[9px] uppercase">MIN</div>
           </div>
           <div className="p-2 bg-black text-white border border-black shadow-[2px_2px_0px_#000]">
-            <div className="text-lg sm:text-2xl font-black text-[#ff2d2d]">{String(timeLeft.seconds).padStart(2, '0')}</div>
+            <div className="text-lg sm:text-2xl font-black text-[#ff3434]">{String(timeLeft.seconds).padStart(2, '0')}</div>
             <div className="text-[9px] uppercase">SEC</div>
           </div>
         </div>
       </div>
 
-      {/* Main Metric Cards Grid */}
+      {/* Main Metric Cards Grid (3 Cards) */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Metric 1: Lifespan */}
         <div className="brutal-card p-6 bg-white flex flex-col justify-between">
-          <div className="font-mono text-xs font-black uppercase bg-black text-white px-2 py-1 inline-block self-start mb-3">
+          <div className="font-mono text-xs font-black uppercase bg-black text-white px-2 py-1 inline-block self-start mb-3 shadow-[2px_2px_0px_#000]">
             PREDICTED LIFESPAN
           </div>
           <div>
@@ -190,16 +221,16 @@ export default function ResultsPage({ data, onReset }) {
           </div>
         </div>
 
-        {/* Metric 2: Expiry Date */}
-        <div className="brutal-card p-6 bg-[#ff2d2d] text-white flex flex-col justify-between">
-          <div className="font-mono text-xs font-black uppercase bg-white text-black px-2 py-1 inline-block self-start mb-3">
+        {/* Metric 2: Expiry Date - Fixed High Contrast Red Highlight on White Card */}
+        <div className="brutal-card p-6 bg-white flex flex-col justify-between">
+          <div className="font-mono text-xs font-black uppercase bg-[#ff3434] text-white px-2 py-1 inline-block self-start mb-3 shadow-[2px_2px_0px_#000]">
             EXPIRY DATE
           </div>
           <div>
-            <div className="text-2xl sm:text-3xl font-black uppercase tracking-tight">
-              {expiry_formatted}
+            <div className="text-2xl sm:text-3xl font-black text-[#ff3434] uppercase tracking-tight">
+              {displayExpiry}
             </div>
-            <p className="font-mono text-xs text-white font-bold mt-1">
+            <p className="font-mono text-xs text-neutral-600 font-bold mt-1">
               Hard projected deadline
             </p>
           </div>
@@ -207,7 +238,7 @@ export default function ResultsPage({ data, onReset }) {
 
         {/* Metric 3: Breakup Probability */}
         <div className="brutal-card p-6 bg-white flex flex-col justify-between">
-          <div className="font-mono text-xs font-black uppercase bg-black text-white px-2 py-1 inline-block self-start mb-3">
+          <div className="font-mono text-xs font-black uppercase bg-black text-white px-2 py-1 inline-block self-start mb-3 shadow-[2px_2px_0px_#000]">
             BREAKUP PROBABILITY
           </div>
           <div>
@@ -215,10 +246,10 @@ export default function ResultsPage({ data, onReset }) {
               {breakup_percentage}
             </div>
             {/* Brutal Solid Bar */}
-            <div className="w-full h-4 border-2 border-black bg-white p-0.5 mt-2">
+            <div className="w-full h-4 border-2 border-black bg-white p-0.5 mt-2 shadow-[2px_2px_0px_#000]">
               <div
-                className="h-full bg-[#ff2d2d]"
-                style={{ width: `${probVal}%` }}
+                className="h-full bg-[#ff3434]"
+                style={{ width: `${Math.min(100, Math.max(5, probVal))}%` }}
               />
             </div>
           </div>
@@ -227,7 +258,7 @@ export default function ResultsPage({ data, onReset }) {
 
       {/* Primary & Secondary Reasons */}
       <div className="brutal-card p-6 sm:p-8 bg-white">
-        <div className="font-mono text-xs font-black bg-black text-white px-2 py-1 inline-block mb-3">
+        <div className="font-mono text-xs font-black bg-black text-white px-2 py-1 inline-block mb-3 shadow-[2px_2px_0px_#000]">
           PRIMARY GROUNDS FOR SEPARATION
         </div>
 
@@ -266,7 +297,7 @@ export default function ResultsPage({ data, onReset }) {
               {ranked_dimensions.map((rd) => (
                 <div key={rd.dim} className="p-2 border border-black bg-neutral-50 flex items-center justify-between">
                   <span className="truncate mr-1">{rd.name}</span>
-                  <span className={`font-bold ${rd.score >= 0.7 ? 'text-[#008000]' : rd.score >= 0.5 ? 'text-amber-600' : 'text-[#ff2d2d]'}`}>
+                  <span className={`font-bold ${rd.score >= 0.7 ? 'text-[#008000]' : rd.score >= 0.5 ? 'text-amber-600' : 'text-[#ff3434]'}`}>
                     {Math.round(rd.score * 100)}%
                   </span>
                 </div>
@@ -280,7 +311,7 @@ export default function ResultsPage({ data, onReset }) {
       <DecayChart
         points={decay_curve}
         durationMonths={duration_months}
-        expiryDate={expiry_formatted}
+        expiryDate={displayExpiry}
       />
 
       {/* What-If Simulator */}
@@ -292,15 +323,15 @@ export default function ResultsPage({ data, onReset }) {
         onRecalculate={handleRecalculate}
       />
 
-      {/* Fun Certificate Box */}
-      <CertificateCard data={currentData} />
+      {/* Official Certificate Box & Voice Controller */}
+      <CertificateCard data={{ ...currentData, expiry_formatted: displayExpiry }} />
 
       {/* Action Buttons Row */}
       <div className="flex flex-col sm:flex-row items-center gap-3">
         <button
           type="button"
           onClick={handleShare}
-          className="brutal-btn-accent w-full sm:flex-1 py-4 px-6 text-base sm:text-lg flex items-center justify-center gap-2 cursor-pointer"
+          className="brutal-btn-accent w-full sm:flex-1 py-4 px-6 text-base sm:text-lg flex items-center justify-center gap-2 cursor-pointer shadow-[4px_4px_0px_#000]"
         >
           {shareCopied ? (
             <>
@@ -318,7 +349,7 @@ export default function ResultsPage({ data, onReset }) {
         <button
           type="button"
           onClick={handleTweet}
-          className="brutal-btn w-full sm:w-auto py-4 px-5 text-sm font-mono flex items-center justify-center gap-2 cursor-pointer bg-black text-white"
+          className="brutal-btn w-full sm:w-auto py-4 px-5 text-sm font-mono flex items-center justify-center gap-2 cursor-pointer bg-black text-white shadow-[4px_4px_0px_#000]"
           title="Share on X / Twitter"
         >
           <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
@@ -330,7 +361,7 @@ export default function ResultsPage({ data, onReset }) {
         <button
           type="button"
           onClick={onReset}
-          className="brutal-btn w-full sm:w-auto py-4 px-6 text-base sm:text-lg flex items-center justify-center gap-2 cursor-pointer"
+          className="brutal-btn w-full sm:w-auto py-4 px-6 text-base sm:text-lg flex items-center justify-center gap-2 cursor-pointer shadow-[4px_4px_0px_#000]"
         >
           <RotateCcw className="w-5 h-5" />
           <span>TRY AGAIN</span>
