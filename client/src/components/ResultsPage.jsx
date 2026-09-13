@@ -6,11 +6,22 @@ import CertificateCard from './CertificateCard';
 import { playSound } from '../utils/audio';
 import { speakVerdict, stopSpeaking } from '../utils/voice';
 
+const CHAOS_THEORIES = [
+  'SUSPICIOUS ACTIVITY: they split dessert without discussing it. This proves absolutely nothing.',
+  'EVIDENCE LOGGED: the shared playlist contains 14 songs with matching vibes. Disturbing, but not evidence.',
+  'WITNESS REPORT: a houseplant observed several pleasant conversations. The plant refuses to elaborate.',
+  'ALGORITHM PANIC: one person remembered the other person’s coffee order. Chaos levels remain theoretical.',
+  'FORENSIC UPDATE: they use the same snack delivery app. No conclusions can be responsibly drawn.',
+  'RED FLAG (DECORATIVE): they survived IKEA without a parliamentary inquiry. Highly inconvenient data.'
+];
+
 export default function ResultsPage({ data, onReset }) {
   const [currentData, setCurrentData] = useState(data);
   const [showDebug, setShowDebug] = useState(false);
   const [shareCopied, setShareCopied] = useState(false);
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const [chaosLevel, setChaosLevel] = useState(0);
+  const [chaosTheory, setChaosTheory] = useState(null);
 
   // Auto-play funny Malayalam speech verdict on mount
   useEffect(() => {
@@ -139,6 +150,20 @@ export default function ResultsPage({ data, onReset }) {
       ? (breakup_probability <= 1 ? breakup_probability * 100 : breakup_probability)
       : Number(String(breakup_percentage || '50').replace('%', '')) || 50
   );
+  const isSuspiciouslyStable = probVal < 50;
+
+  const generateChaos = () => {
+    playSound('blip');
+    const nextLevel = chaosLevel + 1;
+    setChaosLevel(nextLevel);
+    setChaosTheory(CHAOS_THEORIES[(nextLevel - 1) % CHAOS_THEORIES.length]);
+  };
+
+  const doNotPress = () => {
+    playSound('stamp');
+    setChaosLevel((level) => level + 1);
+    setChaosTheory('SYSTEM NOTICE: you pressed it. Nothing changed except the drama meter, which is now behaving irresponsibly.');
+  };
 
   return (
     <div className="w-full max-w-4xl mx-auto px-4 py-6 sm:py-10 space-y-8 text-left">
@@ -297,6 +322,41 @@ export default function ResultsPage({ data, onReset }) {
           <div className="mt-5 p-4 border-3 border-black bg-[#ff3434] text-white shadow-[4px_4px_0px_#000]">
             <div className="font-mono text-[10px] font-black uppercase mb-1">[ totally fictional plot twist ]</div>
             <p className="font-mono text-xs sm:text-sm font-bold leading-relaxed">{fictional_twist}</p>
+          </div>
+        )}
+
+        {isSuspiciouslyStable && (
+          <div className="mt-6 border-3 border-black bg-black text-white p-5 sm:p-6 shadow-[6px_6px_0px_#ff3434]">
+            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 border-b-2 border-white pb-3 mb-4">
+              <div>
+                <div className="font-mono text-[10px] font-black uppercase text-[#fff500] mb-1">[ emergency stability response ]</div>
+                <h2 className="text-2xl sm:text-3xl font-black uppercase leading-none">Chaos Protocol</h2>
+              </div>
+              <div className="font-mono text-xs font-black bg-[#ff3434] border-2 border-white px-2 py-1 self-start">
+                DRAMA LEVEL: {chaosLevel}
+              </div>
+            </div>
+
+            <p className="font-mono text-xs sm:text-sm font-bold leading-relaxed mb-4">
+              This relationship scored alarmingly stable. Generate completely fictional non-evidence until the algorithm feels emotionally validated.
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <button type="button" onClick={generateChaos} className="brutal-btn-accent px-4 py-3 text-xs flex items-center justify-center gap-2">
+                <AlertTriangle className="w-4 h-4" /> GENERATE SUSPICION
+              </button>
+              <button type="button" onClick={doNotPress} className="border-3 border-white bg-black text-white px-4 py-3 font-mono font-bold text-xs uppercase hover:bg-[#fff500] hover:text-black transition-colors">
+                DO NOT PRESS
+              </button>
+            </div>
+
+            {chaosTheory ? (
+              <div className="mt-4 bg-[#fff500] border-2 border-white p-3 text-black font-mono text-xs sm:text-sm font-bold leading-relaxed">
+                {chaosTheory}
+              </div>
+            ) : (
+              <div className="mt-4 font-mono text-[10px] uppercase text-neutral-300">No fake evidence generated yet. The couple remains inconveniently fine.</div>
+            )}
           </div>
         )}
 
