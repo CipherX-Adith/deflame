@@ -1,0 +1,174 @@
+@import "tailwindcss";
+
+@layer base {
+  * {
+    border-radius: 0px !important;
+  }
+  
+  body {
+    background-color: #ffffff;
+    color: #000000;
+    min-height: 100vh;
+    font-family: 'Space Mono', 'JetBrains Mono', 'IBM Plex Mono', 'Courier New', monospace;
+    background-image: 
+      radial-gradient(#000000 0.75px, transparent 0.75px);
+    background-size: 20px 20px;
+    background-position: 0 0;
+  }
+
+  ::selection {
+    background-color: #ff2d2d;
+    color: #ffffff;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Arial Black', 'Impact', 'Archivo Black', 'Inter Black', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: -0.03em;
+  }
+}
+
+/* Neo-Brutalist Utilities */
+.brutal-card {
+  background-color: #ffffff;
+  border: 3px solid #000000;
+  box-shadow: 8px 8px 0px #000000;
+  border-radius: 0px;
+}
+
+.brutal-card-sm {
+  background-color: #ffffff;
+  border: 2px solid #000000;
+  box-shadow: 4px 4px 0px #000000;
+  border-radius: 0px;
+}
+
+.brutal-card-accent {
+  background-color: #ff2d2d;
+  color: #ffffff;
+  border: 3px solid #000000;
+  box-shadow: 8px 8px 0px #000000;
+}
+
+.brutal-btn {
+  background-color: #000000;
+  color: #ffffff;
+  border: 3px solid #000000;
+  box-shadow: 5px 5px 0px #000000;
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  text-transform: uppercase;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.1s ease, color 0.1s ease;
+  cursor: pointer;
+}
+
+.brutal-btn:hover:not(:disabled) {
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0px #000000;
+}
+
+.brutal-btn:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px #000000;
+}
+
+.brutal-btn:disabled {
+  background-color: #e5e5e5;
+  color: #888888;
+  border-color: #888888;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.brutal-btn-accent {
+  background-color: #ff2d2d;
+  color: #ffffff;
+  border: 3px solid #000000;
+  box-shadow: 5px 5px 0px #000000;
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  text-transform: uppercase;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.1s ease, color 0.1s ease;
+  cursor: pointer;
+}
+
+.brutal-btn-accent:hover:not(:disabled) {
+  background-color: #ffffff;
+  color: #000000;
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0px #000000;
+}
+
+.brutal-btn-accent:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px #000000;
+}
+
+.brutal-input {
+  background-color: #ffffff;
+  border: 3px solid #000000;
+  color: #000000;
+  font-family: 'Space Mono', monospace;
+  border-radius: 0px;
+  outline: none;
+  transition: box-shadow 0.1s ease, border-color 0.1s ease;
+}
+
+.brutal-input:focus {
+  border-color: #000000;
+  box-shadow: 4px 4px 0px #000000;
+  background-color: #ffffff;
+}
+
+.brutal-badge {
+  display: inline-block;
+  background-color: #ff2d2d;
+  color: #ffffff;
+  font-weight: 800;
+  border: 2px solid #000000;
+  box-shadow: 3px 3px 0px #000000;
+  text-transform: uppercase;
+}
+
+.brutal-badge-black {
+  display: inline-block;
+  background-color: #000000;
+  color: #ffffff;
+  font-weight: 800;
+  border: 2px solid #000000;
+  box-shadow: 3px 3px 0px #000000;
+  text-transform: uppercase;
+}
+
+/* Custom Brutal Range Slider */
+input[type=range] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: #ffffff;
+  border: 2px solid #000000;
+  height: 12px;
+  border-radius: 0px;
+  outline: none;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 24px;
+  background: #ff2d2d;
+  border: 2px solid #000000;
+  cursor: pointer;
+  border-radius: 0px;
+  box-shadow: 2px 2px 0px #000000;
+}
+
+input[type=range]::-moz-range-thumb {
+  width: 20px;
+  height: 24px;
+  background: #ff2d2d;
+  border: 2px solid #000000;
+  cursor: pointer;
+  border-radius: 0px;
+  box-shadow: 2px 2px 0px #000000;
+}
