@@ -20,7 +20,14 @@ export const QUESTION_POOL = [
   question('repair_attempts', 'K', 'Do you know how to come back after a bad day?', 'Repair attempts: not glamorous, wildly useful.', ['SIDE-EYES AND NAPS', 'AWKWARDLY, EVENTUALLY', 'TALK OR KIND GESTURE', 'REPAIR EXPERTS'], ['Silence, side-eyes, and strategic naps.', 'Eventually, with some awkwardness.', 'Usually with a conversation or kind gesture.', 'You are almost annoyingly good at repair.'])
 ];
 
-const shuffle = (items) => [...items].sort(() => Math.random() - 0.5);
+const shuffle = (items) => {
+  const array = [...items];
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};
 
 export function getRandomQuestions() {
   const byDimension = QUESTION_POOL.reduce((groups, item) => {
@@ -30,7 +37,11 @@ export function getRandomQuestions() {
   const essential = Object.values(byDimension).map((items) => shuffle(items)[0]);
   const remaining = QUESTION_POOL.filter((item) => !essential.includes(item));
   const extraCount = 2 + Math.floor(Math.random() * 3);
-  return shuffle([...essential, ...shuffle(remaining).slice(0, extraCount)]);
+  const selected = shuffle([...essential, ...shuffle(remaining).slice(0, extraCount)]);
+  return selected.map((q) => ({
+    ...q,
+    options: shuffle(q.options)
+  }));
 }
 
 export const QUESTIONS = QUESTION_POOL;
