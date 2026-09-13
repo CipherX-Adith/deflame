@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { RotateCcw, Share2, Check, Printer, AlertTriangle, Info, ChevronDown, ChevronUp, Clock, ExternalLink, Volume2 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import DecayChart from './DecayChart';
-import WhatIfSimulator from './WhatIfSimulator';
 import CertificateCard from './CertificateCard';
 import { playSound } from '../utils/audio';
 import { speakVerdict, stopSpeaking } from '../utils/voice';
@@ -133,11 +132,6 @@ export default function ResultsPage({ data, onReset }) {
   const handlePrint = () => {
     playSound('click');
     window.print();
-  };
-
-  const handleRecalculate = (updatedData) => {
-    playSound('blip');
-    setCurrentData(updatedData);
   };
 
   const probVal = Math.round(
@@ -331,15 +325,6 @@ export default function ResultsPage({ data, onReset }) {
         points={decay_curve}
         durationMonths={duration_months}
         expiryDate={displayExpiry}
-      />
-
-      {/* What-If Simulator */}
-      <WhatIfSimulator
-        name1={name1}
-        name2={name2}
-        mode={mode}
-        initialDimensions={dimensions}
-        onRecalculate={handleRecalculate}
       />
 
       {/* Official Certificate Box & Voice Controller */}
