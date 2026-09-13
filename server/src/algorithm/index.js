@@ -38,6 +38,15 @@ function calculateDeflames({ name1 = '', name2 = '', answers = {}, mode = 'relat
 
   // 7. Separation reasons
   const reasonData = generateReasons(scores, mode);
+  const fictionalTwists = [
+    'UNCONFIRMED THEORY: the shared streaming password has become too powerful. This is fan-fiction, not evidence.',
+    'UNCONFIRMED THEORY: one person is secretly planning a surprise date. Extremely suspicious behaviour.',
+    'UNCONFIRMED THEORY: the couple has achieved dangerous levels of teamwork. Authorities are unconcerned.',
+    'UNCONFIRMED THEORY: someone said “let’s get a plant” and meant it. Proceed with playful caution.'
+  ];
+  const fictional_twist = breakup_probability < 0.5
+    ? fictionalTwists[cancellation.n % fictionalTwists.length]
+    : null;
 
   // 8. Decay Curve Data
   const decay_curve = generateDecayCurve(S, d, 48);
@@ -55,6 +64,7 @@ function calculateDeflames({ name1 = '', name2 = '', answers = {}, mode = 'relat
     breakup_percentage: `${Math.round(breakup_probability * 100)}%`,
     primary_reason: reasonData.primary_reason,
     secondary_factors: reasonData.secondary_factors,
+    fictional_twist,
     dimensions: {
       C: scores.C,
       T: scores.T,

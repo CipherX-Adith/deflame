@@ -1,25 +1,26 @@
 import React, { useState, useRef } from 'react';
 import { ArrowLeft, ArrowRight, Flame, Check, Dices, AlertCircle } from 'lucide-react';
-import { QUESTIONS } from '../data/questions';
+import { getRandomQuestions } from '../data/questions';
 import { playSound } from '../utils/audio';
 
 export default function Questionnaire({ name1, name2, mode = 'relationship', onComplete, onBackToNames }) {
   const [answers, setAnswers] = useState({});
+  const [questions] = useState(() => getRandomQuestions());
   const questionRefs = useRef({});
 
-  const handleSelectOption = (questionId, value, index) => {
+  const handleSelectOption = (question, option, index) => {
     playSound('select');
     const updated = {
       ...answers,
-      [questionId]: value
+      [question.id]: { value: option.value, score: option.score, dimension: question.dimension }
     };
     setAnswers(updated);
 
     // Auto-scroll to next unanswered question after a brief delay
-    const nextUnansweredIndex = QUESTIONS.findIndex((q, i) => i > index && !updated[q.id]);
-    if (nextUnansweredIndex !== -1 && questionRefs.current[QUESTIONS[nextUnansweredIndex].id]) {
+    const nextUnansweredIndex = questions.findIndex((q, i) => i > index && !updated[q.id]);
+    if (nextUnansweredIndex !== -1 && questionRefs.current[questions[nextUnansweredIndex].id]) {
       setTimeout(() => {
-        questionRefs.current[QUESTIONS[nextUnansweredIndex].id]?.scrollIntoView({
+        questionRefs.current[questions[nextUnansweredIndex].id]?.scrollIntoView({
           behavior: 'smooth',
           block: 'center'
         });
@@ -30,22 +31,22 @@ export default function Questionnaire({ name1, name2, mode = 'relationship', onC
   const handleFillRandom = () => {
     playSound('blip');
     const randomized = {};
-    QUESTIONS.forEach((q) => {
+    questions.forEach((q) => {
       const randomOpt = q.options[Math.floor(Math.random() * q.options.length)];
-      randomized[q.id] = randomOpt.value;
+      randomized[q.id] = { value: randomOpt.value, score: randomOpt.score, dimension: q.dimension };
     });
     setAnswers(randomized);
   };
 
   const answeredCount = Object.keys(answers).length;
-  const isComplete = answeredCount === QUESTIONS.length;
+  const isComplete = answeredCount === questions.length;
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!isComplete) {
       playSound('blip');
       // Scroll to first unanswered question
-      const firstUnanswered = QUESTIONS.find(q => !answers[q.id]);
+      const firstUnanswered = questions.find(q => !answers[q.id]);
       if (firstUnanswered && questionRefs.current[firstUnanswered.id]) {
         questionRefs.current[firstUnanswered.id].scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
@@ -77,7 +78,7 @@ export default function Questionnaire({ name1, name2, mode = 'relationship', onC
           </div>
 
           <div className="font-mono text-sm sm:text-base font-bold bg-black text-white px-3 py-1.5 self-start sm:self-auto shrink-0 shadow-[2px_2px_0px_#ff2d2d]">
-            {answeredCount} / {QUESTIONS.length} ANSWERED
+            {answeredCount} / {questions.length} ANSWERED
           </div>
         </div>
 
@@ -110,7 +111,7 @@ export default function Questionnaire({ name1, name2, mode = 'relationship', onC
         {/* Quick Jump Bar */}
         <div className="mt-4 pt-3 border-t-2 border-black flex items-center gap-1.5 overflow-x-auto pb-1">
           <span className="font-mono text-[10px] uppercase font-bold text-neutral-500 mr-1">JUMP:</span>
-          {QUESTIONS.map((q, i) => {
+          {questions.map((q, i) => {
             const hasAns = Boolean(answers[q.id]);
             return (
               <button
@@ -133,8 +134,8 @@ export default function Questionnaire({ name1, name2, mode = 'relationship', onC
 
       {/* Questions Form */}
       <form onSubmit={handleSubmit} className="space-y-6">
-        {QUESTIONS.map((q, idx) => {
-          const selectedVal = answers[q.id];
+        {questions.map((q, idx) => {
+          const selectedVal = answers[q.id]?.value;
           const isAnswered = Boolean(selectedVal);
 
           return (
@@ -148,7 +149,7 @@ export default function Questionnaire({ name1, name2, mode = 'relationship', onC
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
                   <span className="font-mono text-xs font-black bg-black text-white px-2 py-0.5 inline-block mb-2">
-                    QUESTION {idx + 1} OF {QUESTIONS.length} • DIMENSION [{q.dimension}]
+                    QUESTION {idx + 1} OF {questions.length} • DIMENSION [{q.dimension}]
                   </span>
                   <h2 className="text-xl sm:text-2xl font-black text-black">
                     {q.title}
@@ -177,7 +178,7 @@ export default function Questionnaire({ name1, name2, mode = 'relationship', onC
                     <button
                       key={opt.value}
                       type="button"
-                      onClick={() => handleSelectOption(q.id, opt.value, idx)}
+                      onClick={() => handleSelectOption(q, opt, idx)}
                       className={`p-4 border-2 border-black text-left transition-all font-mono flex flex-col justify-between cursor-pointer ${
                         isSelected
                           ? 'bg-[#ff2d2d] text-white shadow-[4px_4px_0px_#000] -translate-x-0.5 -translate-y-0.5'
@@ -214,11 +215,11 @@ export default function Questionnaire({ name1, name2, mode = 'relationship', onC
 
           <div className="text-center font-mono text-xs font-bold text-black">
             {isComplete ? (
-              <span className="text-[#ff2d2d] font-black">★ ALL 7 QUESTIONS CALIBRATED ★</span>
+              <span className="text-[#ff2d2d] font-black">★ ALL {questions.length} QUESTIONS CALIBRATED ★</span>
             ) : (
               <span className="flex items-center gap-1.5 text-neutral-700">
                 <AlertCircle className="w-3.5 h-3.5 text-[#ff2d2d]" />
-                {QUESTIONS.length - answeredCount} QUESTION{QUESTIONS.length - answeredCount > 1 ? 'S' : ''} REMAINING
+                {questions.length - answeredCount} QUESTION{questions.length - answeredCount > 1 ? 'S' : ''} REMAINING
               </span>
             )}
           </div>

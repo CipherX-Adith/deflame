@@ -80,6 +80,24 @@ function scoreAnswers(answers = {}) {
     return { C, T, I, F, G, K, rawAnswers: answers };
   }
 
+  const dynamicAnswers = Object.values(answers).filter((answer) =>
+    answer && typeof answer === 'object' && typeof answer.score === 'number' && answer.dimension
+  );
+  if (dynamicAnswers.length > 0) {
+    const buckets = { C: [], T: [], I: [], F: [], G: [], K: [] };
+    dynamicAnswers.forEach(({ dimension, score }) => {
+      if (buckets[dimension]) buckets[dimension].push(normalizeScore(score));
+    });
+    const average = (dimension, fallback) => {
+      const values = buckets[dimension];
+      return values.length ? Number((values.reduce((sum, value) => sum + value, 0) / values.length).toFixed(4)) : fallback;
+    };
+    return {
+      C: average('C', 0.75), T: average('T', 0.6), I: average('I', 0.65),
+      F: average('F', 0.75), G: average('G', 0.8), K: average('K', 0.7), rawAnswers: answers
+    };
+  }
+
   // Map from question answers
   const k1Answer = answers.argue_frequency;
   const K1 = SCORING_MAP.argue_frequency[k1Answer] ?? 0.7;

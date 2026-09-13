@@ -1,116 +1,41 @@
-export const QUESTIONS = [
-  {
-    id: "argue_frequency",
-    dimension: "K",
-    title: "How often do you argue?",
-    subtitle: "From minor thermostat spats to philosophical existential crises.",
-    icon: "MessageSquareWarning",
-    options: [
-      { label: "Rarely", desc: "Zen masters of peace and unspoken passive sighs", value: "Rarely" },
-      { label: "Sometimes", desc: "Occasional spicy debates about what to eat for dinner", value: "Sometimes" },
-      { label: "Often", desc: "Daily recurring courtroom trials over chores", value: "Often" },
-      { label: "Constantly", desc: "Perpetual UFC championship title matches", value: "Constantly" }
-    ]
-  },
-  {
-    id: "communication_style",
-    dimension: "C",
-    title: "How would you describe your communication style?",
-    subtitle: "When something is bothering you, what actually happens?",
-    icon: "Radio",
-    options: [
-      { label: "Very open and direct", desc: "Radical honesty with no hidden subtext", value: "Very open and direct" },
-      { label: "Mostly open", desc: "We talk things out with mild diplomatic hedging", value: "Mostly open" },
-      { label: "Sometimes avoidant", desc: "'I'm fine.' (Narrator: They were not fine.)", value: "Sometimes avoidant" },
-      { label: "Mostly avoidant or aggressive", desc: "Silent treatment followed by dramatic door slamming", value: "Mostly avoidant or aggressive" }
-    ]
-  },
-  {
-    id: "time_together",
-    dimension: "T",
-    title: "How much quality time do you spend together per week?",
-    subtitle: "Active attention, not just parallel scrolling on separate sofas.",
-    icon: "Clock",
-    options: [
-      { label: "Less than 5 hours", desc: "Two ships passing like fleeting ghosts", value: "Less than 5 hours" },
-      { label: "5–10 hours", desc: "Standard weekly date night & occasional brunch", value: "5–10 hours" },
-      { label: "10–20 hours", desc: "Solid connection time, deep talks and shared meals", value: "10–20 hours" },
-      { label: "More than 20 hours", desc: "Attached at the hip like Siamese twins", value: "More than 20 hours" }
-    ]
-  },
-  {
-    id: "goals_similarity",
-    dimension: "G",
-    title: "How similar are your long-term life goals?",
-    subtitle: "Where do you see yourselves when civilization reaches year 2035?",
-    icon: "Compass",
-    options: [
-      { label: "Very different", desc: "One wants a goat farm in Idaho, the other a Tokyo penthouse", value: "Very different" },
-      { label: "Somewhat different", desc: "Roughly overlapping continents, differing timelines", value: "Somewhat different" },
-      { label: "Mostly similar", desc: "Shared core values with minor city preferences", value: "Mostly similar" },
-      { label: "Very similar", desc: "Identical Pinterest vision boards and 10-year roadmaps", value: "Very similar" }
-    ]
-  },
-  {
-    id: "financial_compatibility",
-    dimension: "F",
-    title: "How compatible are your financial habits?",
-    subtitle: "When payday drops and spontaneous online shopping calls...",
-    icon: "PiggyBank",
-    options: [
-      { label: "Very different", desc: "Frugal coupon clipper meets compulsive luxury collector", value: "Very different" },
-      { label: "Somewhat different", desc: "One saves diligently, one orders DoorDash 4x a week", value: "Somewhat different" },
-      { label: "Mostly similar", desc: "General agreement on savings goals and treat-yourself caps", value: "Mostly similar" },
-      { label: "Very similar", desc: "Synced budget spreadsheets and shared financial minimalism", value: "Very similar" }
-    ]
-  },
-  {
-    id: "interests_overlap",
-    dimension: "I",
-    title: "How well do your interests and hobbies overlap?",
-    subtitle: "What happens when someone says 'Let's do something fun this weekend'?",
-    icon: "Sparkles",
-    options: [
-      { label: "Low", desc: "Opposite ends of the universe (Gamer vs Extreme Mountaineer)", value: "Low" },
-      { label: "Medium", desc: "A couple shared shows, but separate individual pursuits", value: "Medium" },
-      { label: "High", desc: "Obsessed with the exact same niche indie subcultures", value: "High" }
-    ]
-  },
-  {
-    id: "conflict_handling",
-    dimension: "K2",
-    title: "How do you handle conflicts?",
-    subtitle: "When the tension peaks and voices rise, how does it end?",
-    icon: "ShieldAlert",
-    options: [
-      { label: "We resolve calmly", desc: "Empathetic listening and constructive problem solving", value: "We resolve calmly" },
-      { label: "We argue but reconcile", desc: "Brief heated explosion followed by makeup hugs and snacks", value: "We argue but reconcile" },
-      { label: "We often leave things unresolved", desc: "Swept cleanly under the rug to fester for next quarter", value: "We often leave things unresolved" },
-      { label: "We frequently escalate conflicts", desc: "Full-scale thermonuclear scorched earth warfare", value: "We frequently escalate conflicts" }
-    ]
-  }
+const SCALE = [
+  { label: 'ABSOLUTELY NOT', value: 'low', score: 0.2 },
+  { label: 'SOMETIMES', value: 'mid', score: 0.55 },
+  { label: 'MOSTLY, YES', value: 'high', score: 0.8 },
+  { label: 'SUSPICIOUSLY PERFECT', value: 'max', score: 1 }
 ];
 
-export const APP_MODES = [
-  {
-    id: 'relationship',
-    title: 'Romantic Couple',
-    icon: 'Heart',
-    tagline: 'Predict your romantic expiry date & decay curve',
-    accent: 'rose'
-  },
-  {
-    id: 'friendship',
-    title: 'Best Friends',
-    icon: 'Users',
-    tagline: 'When will your group chat go completely silent?',
-    accent: 'amber'
-  },
-  {
-    id: 'cofounder',
-    title: 'Startup Co-Founders',
-    icon: 'Briefcase',
-    tagline: 'Who will rage-quit the cap table first?',
-    accent: 'cyan'
-  }
+const question = (id, dimension, title, subtitle, descriptions) => ({
+  id, dimension, title, subtitle,
+  options: SCALE.map((option, index) => ({ ...option, desc: descriptions[index] }))
+});
+
+export const QUESTION_POOL = [
+  question('talk_after_tension', 'C', 'When something feels off, do you actually talk about it?', 'Not a yes/no interrogation. The algorithm is already being dramatic.', ['Emoji warfare and cryptic stories.', 'Eventually, after a tactical delay.', 'Usually before it becomes a saga.', 'You communicate like trained diplomats.']),
+  question('phone_face_down', 'C', 'Can either of you say “I’m fine” and mean it?', 'A bold question in this economy.', ['“Fine” means prepare for impact.', 'It depends on the day and the snack supply.', 'Mostly. There are words, not riddles.', 'You name feelings before the kettle boils.']),
+  question('weekend_alignment', 'T', 'Do your weekends ever overlap on purpose?', 'Existing in the same building does not automatically count.', ['Separate galaxies, separate calendars.', 'An occasional accidental brunch.', 'Dates, plans, and actual attention.', 'You voluntarily spend whole weekends together.']),
+  question('micro_moments', 'T', 'Do you make time for tiny, boring moments together?', 'Shared errands count. So does sitting quietly without doom-scrolling.', ['Everything is rushed or rescheduled.', 'Sometimes, between notifications.', 'Often enough to feel connected.', 'Even grocery shopping becomes a bit.']),
+  question('playlist_overlap', 'I', 'Could you survive a six-hour road trip playlist together?', 'No skips is an unreasonable standard. We know.', ['Immediate aux-cord custody battle.', 'A fragile truce with headphones.', 'Enough shared songs to make it work.', 'You have a joint playlist with lore.']),
+  question('silly_projects', 'I', 'Do you enjoy being silly together without a screen involved?', 'The most scientifically unserious compatibility metric.', ['The vibes evaporate instantly.', 'Rarely, but there is potential.', 'Yes, you have inside jokes.', 'You could turn a queue into a comedy show.']),
+  question('money_surprises', 'F', 'Would a surprise expense start a boss battle?', 'Imagine the washing machine makes a suspicious noise.', ['Financial jump-scare. Everyone panics.', 'Some stress and a spreadsheet debate.', 'You can make a plan together.', 'You have a plan, backups, and snacks.']),
+  question('treat_budget', 'F', 'Can you agree on what counts as “just a little treat”?', 'This is where many empires fall.', ['One says coffee; one says a weekend getaway.', 'Negotiations take longer than the purchase.', 'Mostly aligned with occasional chaos.', 'You have eerily compatible treat economics.']),
+  question('future_map', 'G', 'Do your future plans point in roughly the same direction?', 'No need for matching vision boards. A shared continent helps.', ['Opposite maps, opposite timelines.', 'Some overlap if nobody moves suddenly.', 'The broad picture matches.', 'You may have discussed curtains in 2035.']),
+  question('life_changes', 'G', 'When life gets weird, do you imagine adapting as a team?', 'Career pivots, family plans, unexpectedly owning a plant.', ['Everyone for themselves.', 'Maybe, after a long committee meeting.', 'Usually, yes.', 'You would make a crisis color-coded together.']),
+  question('small_arguments', 'K', 'What happens after a tiny disagreement?', 'For example: the correct thermostat setting.', ['It gets archived for future use.', 'A little drama, then normal service resumes.', 'You resolve it without a season finale.', 'You apologise before the passive aggression loads.']),
+  question('repair_attempts', 'K', 'Do you know how to come back after a bad day?', 'Repair attempts: not glamorous, wildly useful.', ['Silence, side-eyes, and strategic naps.', 'Eventually, with some awkwardness.', 'Usually with a conversation or kind gesture.', 'You are almost annoyingly good at repair.'])
 ];
+
+const shuffle = (items) => [...items].sort(() => Math.random() - 0.5);
+
+export function getRandomQuestions() {
+  const byDimension = QUESTION_POOL.reduce((groups, item) => {
+    groups[item.dimension] = [...(groups[item.dimension] || []), item];
+    return groups;
+  }, {});
+  const essential = Object.values(byDimension).map((items) => shuffle(items)[0]);
+  const remaining = QUESTION_POOL.filter((item) => !essential.includes(item));
+  const extraCount = 2 + Math.floor(Math.random() * 3);
+  return shuffle([...essential, ...shuffle(remaining).slice(0, extraCount)]);
+}
+
+export const QUESTIONS = QUESTION_POOL;

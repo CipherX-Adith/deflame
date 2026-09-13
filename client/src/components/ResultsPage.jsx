@@ -36,6 +36,7 @@ export default function ResultsPage({ data, onReset }) {
     breakup_percentage = `${Math.round(breakup_probability * 100)}%`,
     primary_reason = 'Communication breakdown',
     secondary_factors = [],
+    fictional_twist = null,
     dimensions = {},
     ranked_dimensions = [],
     decay_curve = [],
@@ -295,6 +296,13 @@ export default function ResultsPage({ data, onReset }) {
                 </div>
               ))}
             </div>
+          </div>
+        )}
+
+        {fictional_twist && (
+          <div className="mt-5 p-4 border-3 border-black bg-[#ff3434] text-white shadow-[4px_4px_0px_#000]">
+            <div className="font-mono text-[10px] font-black uppercase mb-1">[ totally fictional plot twist ]</div>
+            <p className="font-mono text-xs sm:text-sm font-bold leading-relaxed">{fictional_twist}</p>
           </div>
         )}
 
